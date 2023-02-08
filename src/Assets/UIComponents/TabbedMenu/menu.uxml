@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="CharacterList" src="project://database/Assets/UIComponents/CharacterList/CharacterList.uxml?fileID=9197481963319205126&amp;guid=9c812bc5be0e69e488d3db65cab0cd56&amp;type=3#CharacterList" />
+    <Style src="project://database/Assets/UIComponents/TabbedMenu/menu.uss?fileID=7433441132597879392&amp;guid=9607ba936e4a59c4fb3f0d4f39dfb78f&amp;type=3#menu" />
+    <ui:VisualElement>
+        <ui:VisualElement name="tabs">
+            <ui:ScrollView mode="Horizontal">
+                <ui:Label name="Group1" text="City Life" class="tab currentlySelectedTab" />
+                <ui:Label name="Group2" text="Wealth Female" class="tab" />
+                <ui:Label name="addGroup" text="+ new group" class="newGroup" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="tabContent" style="flex-direction: column;">
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:TextField picking-mode="Ignore" label="Characters" text="20" name="groupCharacterNumber" style="flex-shrink: 1;" />
+                <ui:Toggle value="false" text="Select All" name="groupSelectAllCharacters" style="flex-shrink: 1; align-items: stretch;" />
+                <ui:Button text="Filter" display-tooltip-when-elided="true" name="groupFilterCharacters" style="height: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="opacity: 1; flex-direction: row; width: 100%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+                <ui:VisualElement>
+                    <ui:Button text="+" display-tooltip-when-elided="true" name="addCharacter" style="flex-direction: row; flex-wrap: nowrap; flex-shrink: 1; flex-grow: 0; overflow: visible; visibility: visible; align-items: flex-start; justify-content: flex-start; position: relative;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Instance template="CharacterList" name="characterList" focusable="false" style="overflow: hidden; max-width: none; position: absolute; left: auto; padding-left: 0; width: 100%;">
+                        <ui:ScrollView mode="Horizontal" horizontal-scroller-visibility="AlwaysVisible" style="flex-grow: 0; width: 100%; height: 100%; overflow: hidden; max-width: initial; left: auto; position: relative;" />
+                    </ui:Instance>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
