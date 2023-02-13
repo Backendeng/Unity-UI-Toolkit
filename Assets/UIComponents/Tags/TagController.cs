@@ -11,19 +11,23 @@ public class TagController : MonoBehaviour
      * Define member variables
     **/
     private const string inputTagClassName = "inputTag";
+    private const string inputTagVisualElement = "tagVE";
     private const string inputTagTextField = "tagTextField";
+    private const string inputTagCloseLabel = "closeLabel";
     private const string inputTagButton = "buttonTag";
 
     /* 
      * when click InputTag
     **/
     private bool isTyping;
+    private bool isClose;
 
     /*
      * UI Builder Elements
     **/
     private VisualElement root;
     private VisualElement tagVE;
+    private VisualElement inputTagVE;
     private VisualElement createTagVE;
     private VisualElement newTagVE;
     private TextField tagTextField;
@@ -36,6 +40,7 @@ public class TagController : MonoBehaviour
     void Start()
     {
         isTyping = false;
+        isClose = false;
     }
     
     private void OnEnable() 
@@ -62,42 +67,67 @@ public class TagController : MonoBehaviour
 
     private void AddNewInputGroup(ClickEvent evt) {
         
-        if (!isTyping)
-        {
-            // Adding new TextFeild in InputTag VisualElement
-            tagTextField = new TextField();
-            tagTextField.AddToClassList(inputTagTextField);
-            tagVE.Insert(tagVE.childCount, tagTextField);
+        if (!isClose) {
+            if (!isTyping)
+            {
+                inputTagVE = new VisualElement();
+                inputTagVE.AddToClassList(inputTagVisualElement);
 
-            // Adding new Label in CreateTag VisualElement
-            newTagLabel = new Label();
-            newTagLabel.AddToClassList(inputTagButton);
-            newTagVE.style.display = DisplayStyle.Flex;
-            createTagVE.Insert(createTagVE.childCount, newTagLabel);
+                tagTextField = new TextField();
+                tagTextField.AddToClassList(inputTagTextField);
+                inputTagVE.Insert(inputTagVE.childCount, tagTextField);
 
-            isTyping = true;
-        } 
+                Label closeLabel = new Label() {text = "x"};
+                closeLabel.AddToClassList(inputTagCloseLabel);
+                RemoveInputTagCallbacks(closeLabel);
+                inputTagVE.Insert(inputTagVE.childCount, closeLabel);
+                
+                tagVE.Insert(tagVE.childCount, inputTagVE);
+
+
+                // Adding new Label in CreateTag VisualElement
+                newTagLabel = new Label();
+                newTagLabel.AddToClassList(inputTagButton);
+                newTagVE.style.display = DisplayStyle.Flex;
+                createTagVE.Insert(createTagVE.childCount, newTagLabel);
+
+                isTyping = true;
+            } 
+        } else {
+            isClose = false;
+        }
     }
 
     /*
      * Keyboard event
     **/
     private void TagTextFeildEvent() {
-        tagVE.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
+        tagVE.RegisterCallback<KeyUpEvent>(OnKeyUp, TrickleDown.TrickleDown);
     }
 
-    private void OnKeyDown(KeyDownEvent evt) {
+    private void OnKeyUp(KeyUpEvent evt) {
         // when click enter key
         if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter )
         {
             if (tagTextField.text != null && tagTextField.text != "")
             {
-                // Add new Tag
-                Button newTagItem = new Button() { text = tagTextField.text };
-                newTagItem.AddToClassList(inputTagButton);
-                newTagItem.style.width = 20 + tagTextField.text.Length*8;
-                RegisterTabCallbacks(newTagItem);
-                tagVE.Insert(tagVE.childCount-1, newTagItem);
+                VisualElement addTagVE = new VisualElement();
+                addTagVE.AddToClassList(inputTagVisualElement);
+
+                Label newLabel = new Label() { text = tagTextField.text };
+                newLabel.AddToClassList(inputTagTextField);
+                newTagLabel.style.width = 15 + tagTextField.text.Length*8.5f;
+                addTagVE.Insert(addTagVE.childCount, newLabel);
+
+                Label closeLabel = new Label() {text = "x"};
+                closeLabel.AddToClassList(inputTagCloseLabel);
+                addTagVE.Insert(addTagVE.childCount, closeLabel);
+
+                addTagVE.style.width = 30 + tagTextField.text.Length*8.5f;
+
+                RemoveTagCallbacks(addTagVE);
+                
+                tagVE.Insert(tagVE.childCount-1, addTagVE);
 
                 tagVE.RemoveAt(tagVE.childCount-1);
                 createTagVE.RemoveAt(1);
@@ -108,23 +138,42 @@ public class TagController : MonoBehaviour
         }
 
         // change TextFeild width
-        tagTextField.style.width = 20 + tagTextField.text.Length*8.5f;
-        newTagLabel.style.width = 10 + tagTextField.text.Length*8.5f;
-
+        tagTextField.style.width = 15 + tagTextField.text.Length*8.5f;
+        newTagLabel.style.width = 15 + tagTextField.text.Length*8.5f;
+        inputTagVE.style.width = 30 + tagTextField.text.Length*8.5f;
+        
         newTagLabel.text = tagTextField.text;
     }
 
     /*
      * Delete tag when click tag
     **/
-    private void RegisterTabCallbacks(Button tag) {
+    private void RemoveTagCallbacks(VisualElement tag) {
         tag.RegisterCallback<ClickEvent>(TagOnClick);
+    }
+
+    /*
+     * Delete inputTag when click close (x)
+    **/
+    private void RemoveInputTagCallbacks(Label close) {
+        close.RegisterCallback<ClickEvent>(CloseOnClick);
+    }
+
+    private void CloseOnClick(ClickEvent evt)
+    {
+        Label clickedTag = evt.currentTarget as Label;
+        clickedTag.parent.style.display = DisplayStyle.None;
+        createTagVE.RemoveAt(1);
+        newTagVE.style.display = DisplayStyle.None;
+        isClose = true;
+        isTyping = false;
     }
 
     private void TagOnClick(ClickEvent evt)
     {
-        Button clickedTag = evt.currentTarget as Button;
+        VisualElement clickedTag = evt.currentTarget as VisualElement;
         clickedTag.style.display = DisplayStyle.None;
+        isClose = true;
     }
 
     /*
