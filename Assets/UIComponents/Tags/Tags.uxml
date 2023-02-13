@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UIComponents/Tags/TagsStyle.uss?fileID=7433441132597879392&amp;guid=6c5f25105bec49545bbaca55bad6e9f2&amp;type=3#TagsStyle" />
+    <ui:VisualElement>
+        <ui:Label text="Tags" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); margin-bottom: 10px;" />
+        <ui:VisualElement name="Tags" class="inputTag" style="flex-direction: row;" />
+        <ui:VisualElement name="NewTag" style="height: 353px; width: 555px; background-color: rgb(36, 36, 36); border-top-left-radius: 7px; border-bottom-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-left-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-top-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; position: relative; opacity: 1; display: flex;">
+            <ui:Label text="New Tag" display-tooltip-when-elided="true" style="color: rgb(135, 135, 135); height: 36px; width: 488px; margin-left: 20px; margin-right: 3px; margin-top: 20px; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+            <ui:VisualElement style="height: 89px;">
+                <ui:VisualElement name="createTag" style="width: 503px; height: 57px; margin-left: 20px; border-left-color: rgb(113, 113, 113); border-right-color: rgb(113, 113, 113); border-top-color: rgb(113, 113, 113); border-bottom-color: rgb(113, 113, 113); border-bottom-width: 1px; flex-direction: row;">
+                    <ui:Label text="Create" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); width: 49px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Label text="Tags accross project" display-tooltip-when-elided="true" style="color: rgb(135, 135, 135); height: 36px; width: 488px; margin-left: 20px; margin-right: 3px; margin-top: 0; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
