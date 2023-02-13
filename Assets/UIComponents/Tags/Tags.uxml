@@ -11,6 +11,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Label text="Tags accross project" display-tooltip-when-elided="true" style="color: rgb(135, 135, 135); height: 36px; width: 488px; margin-left: 20px; margin-right: 3px; margin-top: 0; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+            <ui:VisualElement name="searchTag" style="height: 167px; width: 554px; padding-left: 30px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

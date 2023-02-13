@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -30,9 +31,12 @@ public class TagController : MonoBehaviour
     private VisualElement inputTagVE;
     private VisualElement createTagVE;
     private VisualElement newTagVE;
+    private VisualElement searchTagVE;
     private TextField tagTextField;
     private TextField tagCreateTextField;
     private Label newTagLabel;
+
+    List<string> listTags = new List<string>();
 
     /*
      * Start is called before the first frame update
@@ -41,6 +45,7 @@ public class TagController : MonoBehaviour
     {
         isTyping = false;
         isClose = false;
+        listTags.Add("Test 1");
     }
     
     private void OnEnable() 
@@ -52,6 +57,7 @@ public class TagController : MonoBehaviour
         tagVE = root.Q<VisualElement>(className: inputTagClassName);
         createTagVE = root.Q<VisualElement>("createTag");
         newTagVE = root.Q<VisualElement>("NewTag");
+        searchTagVE = root.Q<VisualElement>("searchTag");
         newTagVE.style.display = DisplayStyle.None;
 
         TagEvent();
@@ -70,6 +76,8 @@ public class TagController : MonoBehaviour
         if (!isClose) {
             if (!isTyping)
             {
+                searchTagVE.Clear();
+
                 inputTagVE = new VisualElement();
                 inputTagVE.AddToClassList(inputTagVisualElement);
 
@@ -106,6 +114,8 @@ public class TagController : MonoBehaviour
     }
 
     private void OnKeyUp(KeyUpEvent evt) {
+        int tagTextFieldWidth = tagTextField.text.Length;
+
         // when click enter key
         if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter )
         {
@@ -116,14 +126,14 @@ public class TagController : MonoBehaviour
 
                 Label newLabel = new Label() { text = tagTextField.text };
                 newLabel.AddToClassList(inputTagTextField);
-                newTagLabel.style.width = 15 + tagTextField.text.Length*8.5f;
+                newTagLabel.style.width = 15 + tagTextFieldWidth*8.5f;
                 addTagVE.Insert(addTagVE.childCount, newLabel);
 
                 Label closeLabel = new Label() {text = "x"};
                 closeLabel.AddToClassList(inputTagCloseLabel);
                 addTagVE.Insert(addTagVE.childCount, closeLabel);
 
-                addTagVE.style.width = 30 + tagTextField.text.Length*8.5f;
+                addTagVE.style.width = 30 + tagTextFieldWidth*8.5f;
 
                 RemoveTagCallbacks(addTagVE);
                 
@@ -133,18 +143,65 @@ public class TagController : MonoBehaviour
                 createTagVE.RemoveAt(1);
 
                 isTyping = false;
+
+                if (!MatchTagList()) {
+                    listTags.Add(newLabel.text);
+                }
+
+                searchTagVE.Clear();
+                
                 newTagVE.style.display = DisplayStyle.None;
+
             }
         }
 
         // change TextFeild width
-        tagTextField.style.width = 15 + tagTextField.text.Length*8.5f;
-        newTagLabel.style.width = 15 + tagTextField.text.Length*8.5f;
-        inputTagVE.style.width = 30 + tagTextField.text.Length*8.5f;
+
+        tagTextField.style.width = 15 + tagTextFieldWidth*8.5f;
+        newTagLabel.style.width = 15 + tagTextFieldWidth*8.5f;
+        inputTagVE.style.width = 30 + tagTextFieldWidth*8.5f;
         
         newTagLabel.text = tagTextField.text;
+
+
+        if (tagTextFieldWidth > 0) {
+            
+            searchTagVE.Clear();
+            SearchTagList();
+        } else {
+            searchTagVE.Clear();
+        }
     }
 
+    private void SearchTagList() {
+        for (int i = 0 ; i < listTags.Count; i++ ){
+            if (listTags[i] != null && listTags[i] != "") {
+                if (listTags[i].Contains(tagTextField.text)){
+                    Label newSearchLabel = new Label() { text = listTags[i] };
+                    newSearchLabel.AddToClassList(inputTagButton);
+                    newSearchLabel.style.width = 20 + listTags[i].Length*8.5f;
+                    searchTagVE.Insert(searchTagVE.childCount, newSearchLabel);
+                }
+            }
+        }
+    }
+
+    private bool MatchTagList() {
+        for (int i = 0 ; i < listTags.Count; i++ ){
+            if (listTags[i] == tagTextField.text) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void DeleteSearchTagList() {
+        int count = searchTagVE.childCount;
+        for (int i=0; i< count; i++)
+        {
+            searchTagVE.RemoveAt(i);
+        }
+    }
     /*
      * Delete tag when click tag
     **/
