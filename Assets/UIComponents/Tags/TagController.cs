@@ -45,7 +45,10 @@ public class TagController : MonoBehaviour
     {
         isTyping = false;
         isClose = false;
-        listTags.Add("Test 1");
+        listTags.Add("Te 1");
+        listTags.Add("Te 2");
+        listTags.Add("Te 3");
+        listTags.Add("Te 4");
     }
     
     private void OnEnable() 
@@ -180,6 +183,7 @@ public class TagController : MonoBehaviour
                     Label newSearchLabel = new Label() { text = listTags[i] };
                     newSearchLabel.AddToClassList(inputTagButton);
                     newSearchLabel.style.width = 20 + listTags[i].Length*8.5f;
+                    AddSearchTags(newSearchLabel);
                     searchTagVE.Insert(searchTagVE.childCount, newSearchLabel);
                 }
             }
@@ -216,6 +220,13 @@ public class TagController : MonoBehaviour
         close.RegisterCallback<ClickEvent>(CloseOnClick);
     }
 
+    /*
+     * Add Tags when click search tag
+    **/
+    private void AddSearchTags(Label tags) {
+        tags.RegisterCallback<ClickEvent>(SearchTagOnClick);
+    }
+
     private void CloseOnClick(ClickEvent evt)
     {
         Label clickedTag = evt.currentTarget as Label;
@@ -231,6 +242,37 @@ public class TagController : MonoBehaviour
         VisualElement clickedTag = evt.currentTarget as VisualElement;
         clickedTag.style.display = DisplayStyle.None;
         isClose = true;
+    }
+
+    private void SearchTagOnClick(ClickEvent evt){
+        Label clickedTag = evt.currentTarget as Label;
+
+        VisualElement addTagVE = new VisualElement();
+        addTagVE.AddToClassList(inputTagVisualElement);
+
+        Label newLabel = new Label() { text = clickedTag.text };
+        newLabel.AddToClassList(inputTagTextField);
+        newTagLabel.style.width = 15 + newLabel.text.Length*8.5f;
+        addTagVE.Insert(addTagVE.childCount, newLabel);
+
+        Label closeLabel = new Label() {text = "x"};
+        closeLabel.AddToClassList(inputTagCloseLabel);
+        addTagVE.Insert(addTagVE.childCount, closeLabel);
+
+        addTagVE.style.width = 30 + newLabel.text.Length*8.5f;
+
+        RemoveTagCallbacks(addTagVE);
+        
+        tagVE.Insert(tagVE.childCount-1, addTagVE);
+
+        // tagVE.RemoveAt(tagVE.childCount-1);
+        // createTagVE.RemoveAt(1);
+
+        // isTyping = false;
+
+        // searchTagVE.Clear();
+        
+        // newTagVE.style.display = DisplayStyle.None;
     }
 
     /*
