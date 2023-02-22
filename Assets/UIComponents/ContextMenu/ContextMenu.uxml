@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UIComponents/ContextMenu/ContextMenu.uss?fileID=7433441132597879392&amp;guid=ca859ed40591f1c40a8bd64a846b1631&amp;type=3#ContextMenu" />
+    <ui:VisualElement style="height: 376px; width: 349px; background-color: rgba(0, 0, 0, 0);">
+        <ui:Button text="Right Click Button" display-tooltip-when-elided="true" name="button" enable-rich-text="false" style="height: 46px; width: 146px; background-color: rgb(190, 187, 187);" />
+        <ui:VisualElement name="menuPanel" style="height: 132px; width: 200px; position: absolute; margin-left: 0; top: 37px; left: 119px; background-color: rgb(255, 255, 255); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;" />
+    </ui:VisualElement>
+</ui:UXML>
