@@ -1,0 +1,18 @@
+.Item {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-left: 4px;
+}
+
+.Item:hover {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-left: 4px;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 255);
+    color: rgba(255, 255, 255, 255);
+    background-color: rgba(0, 17, 185, 255);
+}
